@@ -95,15 +95,13 @@ def print_versions(
     info = f'Host {socket.getfqdn()}\n{df.to_string(index=False)}'
     if print_output:
         print(info)
-    if return_string:
-        return info
-    return df
+    return info if return_string else df
 
 
 def _version_info_for_module(module_name, include_git):
     try:
         mod = import_module(module_name)
-    except (ModuleNotFoundError, ImportError):
+    except ImportError:
         print(f'{module_name} is not installed')
         return
     git = None
