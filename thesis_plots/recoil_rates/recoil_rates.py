@@ -71,7 +71,9 @@ class Bla:
     )
 
     figure_settings = dict(figsize=(8, 6), facecolor='white', )
-
+    text_kwargs = dict(                   bbox=dict(boxstyle="round",
+                             alpha=0.5,
+                             facecolor='gainsboro', ))
     @staticmethod
     def join_x_axes(ax_dict, merge):
         """Merge axes that are in merge to share the same x-axis"""
@@ -93,14 +95,14 @@ class Bla:
         plt.subplots_adjust(**self._subplot_opts)
         shm = StandardHaloModel(v_0=220 * _kms)
         layout = """"""
-
+        legend_key='l'
         assert len(targets) >= 1, f"should have at least one target, got {targets}"
         for i, target in enumerate(targets):
             le = string.ascii_uppercase[i]
             layout += f"""
-            {le}.
-            {le}{le.lower()}
-            {le}."""
+            {le}{legend_key}
+            {le}{legend_key}
+            {le}{legend_key}"""
         axes = fig.subplot_mosaic(layout,
                                   gridspec_kw={'height_ratios': [0.1, 1, 0.1] * len(targets),
                                                'width_ratios': [1, 0.03]})
@@ -109,11 +111,12 @@ class Bla:
         self.join_x_axes(axes,target_keys)
         y_max = 0
         y_min = np.inf
+        es = np.logspace(-1, np.log10(200), 1000)
         for ax, label in zip(target_keys, targets):
             plt.sca(axes[ax])
             norm = mpl.colors.LogNorm(vmin=self.mws[0], vmax=self.mws[-1])
             for mw in self.mws:
-                es = np.logspace(0.01, np.log10(200), 1000)
+
                 xs = wimprates.rate_wimp(es=es * 1000 * nu.eV,
                                          mw=mw * nu.GeV / nu.c0 ** 2,
                                          sigma_nucleon=self.sigma_nucleon * nu.cm ** 2,
@@ -124,28 +127,28 @@ class Bla:
                 plt.plot(es, xs, c=getattr(plt.cm, self.cmap)(norm(mw)), )
                 y_max = max(y_max, np.max(xs))
                 y_min = min(y_min, np.max(xs))
-
-            mpl.colorbar.ColorbarBase(ax=axes[ax.lower()], norm=norm,
-                                      orientation='vertical',
-                                      cmap=self.cmap,
-                                      boundaries=self.estimate_bounds(self.mws),
-                                      ticks=self.mws,
-                                      label='$M_\chi$')
             axes[ax].text(1 - 0.025,
                           0.9,
-                          label,
-                          bbox=dict(boxstyle='round', fc="lightgray", ec="k"),
+                          f'$\mathrm{{{label}}}$',
+                          **self.text_kwargs,
                           transform=axes[ax].transAxes,
                           ha='right',
                           va='top',
                           )
+
+        mpl.colorbar.ColorbarBase(ax=axes[legend_key], norm=norm,
+                                  orientation='vertical',
+                                  cmap=self.cmap,
+                                  boundaries=self.estimate_bounds(self.mws),
+                                  ticks=self.mws,
+                                  label='$\mathrm{M}_\$\mathrm{\chi}$')
 
         for k in target_keys[:-1]:
             axes[k].set_xticks([])
         y_max = np.ceil(y_max / (10 ** np.floor(np.log10(y_max)))) * 10 ** (np.floor(np.log10(y_max)))
         y_min = 10 ** np.floor(np.log10(y_min))
         for k in target_keys:
-            axes[k].set_ylabel('$E_{nr}$ [keV]')
+            axes[k].set_ylabel('$\mathrm{E_{nr}}$ $\$\mathrm{[keV]}')
             plt.sca(axes[k])
             plt.xscale('log')
             plt.yscale('log')
@@ -158,17 +161,18 @@ class Bla:
 
         fig = plt.figure(**self.figure_settings)
         plt.subplots_adjust(**self._subplot_opts)
+        legend_key ='l'
         layout = """
                  A.
                  .."""
         for le, target in zip(string.ascii_uppercase[1:len(targets) + 1], targets):
             layout += f"""
-                 ..
-                 {le}{le.lower()}
-                 {le}."""
+                 .{legend_key}
+                 {le}{legend_key}
+                 {le}{legend_key}"""
         axes = fig.subplot_mosaic(layout,
                                   gridspec_kw={
-                                      'height_ratios': [2, 0.1] + [0.1, 1, 0.1] * len(targets),
+                                      'height_ratios': [2, 0.2] + [0.1, 1, 0.1] * len(targets),
                                       'width_ratios': [1, 0.03]})
         n_target=len(targets)
         target_keys = string.ascii_uppercase[1:n_target+1]
@@ -177,6 +181,8 @@ class Bla:
 
         new = vel_dist(vs, v_0=238, v_esc=544)
         plt.sca(axes['A'])
+        axes['A'].xaxis.set_ticks_position('both')
+        axes['A'].xaxis.set_label_position('top')
         plt.plot(vs / _kms,
                  vel_dist(vs, v_0=220, v_esc=544),
                  label='old', color='b')
@@ -227,9 +233,10 @@ class Bla:
                           va='top',
                           )
 
-        for k in string.ascii_uppercase[:n_target]:
+        for k in target_keys[:-1]:
             axes[k].set_xticks([])
         for k in target_keys[:-1]:
             axes[k].set_ylabel('$E_{nr}$ [keV]')
             axes[k].set_ylim(es[0], es[-1])
         axes[target_keys[-1]].set_xlim(0, 800)
+        axes[target_keys[-1]].set_xlabel('V-min')
