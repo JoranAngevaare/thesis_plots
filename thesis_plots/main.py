@@ -44,9 +44,10 @@ def setup_plt(use_tex=None):
               'image.cmap': 'viridis',
               }
     plt.rcParams.update(params)
-    if use_tex is None or use_tex:
-        if os.environ.get('DISABLE_LATEX', False) == False:
-            matplotlib.rc('text', usetex=True)
+    if (use_tex is None or use_tex) and os.environ.get(
+        'DISABLE_LATEX', False
+    ) == False:
+        matplotlib.rc('text', usetex=True)
 
 
 def save_fig(name,
