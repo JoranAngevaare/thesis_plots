@@ -14,7 +14,7 @@ from git import Repo, InvalidGitRepositoryError
 
 
 def setup_plt():
-    # Change the plots to have style and fashion
+    """Change the plots to have my style and fashion"""
     params = {'axes.grid': False,
               #           'font.size': 16,
               #           'axes.titlesize': 22,
@@ -50,6 +50,7 @@ def setup_plt():
 def save_fig(name,
              file_types=('png', 'pdf'),
              **kwargs):
+    """Save a figure in the figures dir"""
     base = os.path.split(os.path.realpath(__file__))[0]
     kwargs.setdefault('dpi', 150)
     kwargs.setdefault('bbox_inches', "tight")
@@ -69,7 +70,7 @@ def print_versions(
     Print versions of modules installed.
 
     :param modules: Modules to print, should be str, tuple or list. E.g.
-        print_versions(modules=('numpy', 'dddm',))
+        print_versions(modules=('numpy', 'thesis_plots',))
     :param return_string: optional. Instead of printing the message,
         return a string
     :param include_git: Include the current branch and latest
@@ -146,5 +147,6 @@ def to_str_tuple(x: ty.Union[str, bytes, list, tuple, pd.Series, np.ndarray]) ->
 
 
 def string_to_mathrm(string):
+    """wrap a string in mathrm mode for latex labels"""
     string = string.replace(' ', '\ ')
     return f'$\mathrm{{{string}}}$'

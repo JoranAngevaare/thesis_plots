@@ -44,7 +44,7 @@ def vel_dist(vs, v_0, v_esc):
     return StandardHaloModel(v_0=v_0 * _kms, v_esc=v_esc * _kms).velocity_dist(vs, None) * _kms
 
 
-class Bla:
+class RecoilRatesPlot:
     sigma_nucleon = 1e-47
     mws = np.array([5, 10, 20, 50, 100, 200])
     targets = ('Si', 'Ar', 'Ge', 'Xe')
