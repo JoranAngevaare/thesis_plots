@@ -26,7 +26,7 @@ def labeled_vline(x, text, ytext,
                   color='k', alpha=1, text_alpha=None,
                   **kwargs):
     if text_kwargs is None:
-        text_kwargs = dict()
+        text_kwargs = {}
     if text_alpha is None:
         text_alpha = alpha
     plt.axvline(x, color=color, alpha=alpha, **kwargs)
@@ -44,7 +44,7 @@ def labeled_hline(y, text, xtext,
                   alpha=1,
                   **kwargs):
     if text_kwargs is None:
-        text_kwargs = dict()
+        text_kwargs = {}
     if text_alpha is None:
         text_alpha = alpha
     plt.axhline(y, color=color, alpha=alpha, **kwargs)
