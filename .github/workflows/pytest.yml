@@ -40,7 +40,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pytest --cov --source=thesis_plots -v --nb-test-files --nb-force-regen notebooks/*.ipynb --durations 0 --nb-coverage
+          pytest --cov thesis_plots -v --nb-test-files --nb-force-regen notebooks/*.ipynb --durations 0 --nb-coverage
           coverage run --append --source=thesis_plots -m pytest -v --log-level=DEBUG --durations 0
           coveralls --service=github
       # Done
