@@ -12,6 +12,7 @@ def test_print_versions():
 def test_to_str_tuple():
     tests = [
         'a',
+        tuple(),
         ['a', 'b'],
         ('a', 'b'),
         np.array(['a', 'b']),
@@ -20,4 +21,5 @@ def test_to_str_tuple():
     for t in tests:
         res = thesis_plots.to_str_tuple(t)
         assert isinstance(res, tuple)
-        assert isinstance(res[0], str)
+        if len(res):
+            assert isinstance(res[0], str), res
