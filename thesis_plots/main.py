@@ -13,7 +13,7 @@ import pandas as pd
 from git import Repo, InvalidGitRepositoryError
 
 
-def setup_plt():
+def setup_plt(use_tex=None):
     """Change the plots to have my style and fashion"""
     params = {'axes.grid': False,
               #           'font.size': 16,
@@ -44,7 +44,9 @@ def setup_plt():
               'image.cmap': 'viridis',
               }
     plt.rcParams.update(params)
-    matplotlib.rc('text', usetex=True)
+    if use_tex is None or use_tex:
+        if os.environ.get('DISABLE_LATEX', False) == False:
+            matplotlib.rc('text', usetex=True)
 
 
 def save_fig(name,
