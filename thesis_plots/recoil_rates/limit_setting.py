@@ -25,14 +25,12 @@ class LZ:
         """Read the efficiency from the /data folder"""
         return pd.read_table(os.path.join(root_folder, 'data', 'lz_limit', 'Fig2_NRefficiency.txt', ), delimiter='\t')
 
-
     @property
     def _itp_eff(self):
         if self._itp is None:
             eff = self.get_eff()
             self._itp = scipy.interpolate.interp1d(*eff.values.T[:2], fill_value=0, bounds_error=False, )
         return self._itp
-
 
     def combined_efficiency(self, e_nr):
         """Calculate the energy threshold"""

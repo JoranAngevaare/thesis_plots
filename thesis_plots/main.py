@@ -14,6 +14,7 @@ from git import Repo, InvalidGitRepositoryError
 
 root_folder = os.path.join(os.path.split(os.path.realpath(__file__))[0], '..')
 
+
 def setup_plt(use_tex=True):
     """Change the plots to have my style and fashion"""
     params = {'axes.grid': False,
