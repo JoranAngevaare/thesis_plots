@@ -138,8 +138,10 @@ def to_str_tuple(x: ty.Union[str, bytes, list, tuple, pd.Series, np.ndarray]) ->
     """
     if isinstance(x, (str, bytes)):
         return x,
-    elif isinstance(x, list):
+    if isinstance(x, list):
         return tuple(x)
+    if isinstance(x, tuple):
+        return x
     raise TypeError(f"Expected string or tuple of strings, got {type(x)}")
 
 
