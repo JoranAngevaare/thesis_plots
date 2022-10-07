@@ -76,7 +76,7 @@ class LimitSetter:
         for mw in tqdm(mass_range, disable=not self.tqdm_active, desc='Getting limit for masses'):
             # For each log-cross-section, calculate the total number of observed events
             n_observed = []
-            for i, s in enumerate(sigmas):
+            for s in sigmas:
                 n_i = self.integrate_rate(mw, s)
                 n_observed.append(n_i)
                 if n_i > self.no_background_possion:
