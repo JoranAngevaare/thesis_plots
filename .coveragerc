@@ -5,5 +5,6 @@
 # Regexes for lines to exclude from consideration
 exclude_lines =
     use_tex
+    unknown
 
 ignore_errors = True
