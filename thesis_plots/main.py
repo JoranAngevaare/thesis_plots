@@ -43,6 +43,7 @@ def setup_plt(use_tex=True):
               'figure.facecolor': 'w',
               'figure.figsize': (10, 8),
               'image.cmap': 'viridis',
+              'lines.linewidth': 2,
               }
     plt.rcParams.update(params)
     if use_tex and not os.environ.get('DISABLE_LATEX', False):
