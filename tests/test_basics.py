@@ -1,8 +1,5 @@
 """Basic tests and imports"""
 import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-
 import thesis_plots
 
 
@@ -26,7 +23,7 @@ def test_to_str_tuple():
 
 
 def test_limit_setter():
-    ob = thesis_plots.LimitSetter()
+    thesis_plots.LimitSetter()
 
 
 def test_axhline():
