@@ -20,7 +20,7 @@ class LZ:
     _itp = None
 
     @staticmethod
-    @lru_cache
+    @lru_cache(None)
     def get_eff():
         """Read the efficiency from the /data folder"""
         return pd.read_table(os.path.join(root_folder, 'data', 'lz_limit', 'Fig2_NRefficiency.txt', ), delimiter='\t')
