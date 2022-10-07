@@ -7,6 +7,7 @@ import matplolib.pyplot as plt
 
 def test_print_versions():
     thesis_plots.print_versions()
+    thesis_plots.print_versions('something_not_installed')
 
 
 def test_to_str_tuple():
