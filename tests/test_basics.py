@@ -1,10 +1,8 @@
 """Basic tests and imports"""
-from unittest import TestCase
-
 import matplotlib.pyplot as plt
-import numpy as np
 import thesis_plots
-
+import numpy as np
+from unittest import TestCase
 
 def test_print_versions():
     thesis_plots.print_versions()
