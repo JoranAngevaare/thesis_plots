@@ -11,7 +11,6 @@ from wimprates import StandardHaloModel, v_earth
 
 import thesis_plots
 
-
 _kms = nu.km / nu.s
 
 
@@ -47,9 +46,11 @@ def labeled_vline(y, t, ytext, **kwargs):
 def vel_dist(vs, v_0, v_esc):
     return StandardHaloModel(v_0=v_0 * _kms, v_esc=v_esc * _kms).velocity_dist(vs, None) * _kms
 
+
 def mathrm(text):
     # Just to prevent circular imports, otherwise we would have done "from thesis_plots import mathrm"
     return thesis_plots.mathrm(text)
+
 
 class RecoilRatesPlot:
     sigma_nucleon = 1e-47
@@ -138,7 +139,7 @@ class RecoilRatesPlot:
                                   cmap=self.color_map,
                                   boundaries=self._estimate_bounds(self.mws),
                                   ticks=self.mws,
-                                  label='$\mathrm{M}_{\chi}$')
+                                  label='$M_{\chi}$')
 
         for k in target_keys[:-1]:
             axes[k].set_xticks([])
@@ -164,7 +165,7 @@ class RecoilRatesPlot:
                         targets=None,
                         vs=np.linspace(0, 850 * _kms, 1_000),
                         es=np.linspace(0, 5, 100),
-                        annotate_mw_enr = (10, 1),
+                        annotate_mw_enr=(10, 1),
                         ):
         if targets is None:
             targets = self.targets
@@ -187,13 +188,12 @@ class RecoilRatesPlot:
         target_keys = string.ascii_uppercase[1:n_target + 1]
         self._join_x_axes(axes, string.ascii_uppercase[:n_target + 1])
 
-
         new = vel_dist(vs, v_0=238, v_esc=544)
         plt.sca(axes['A'])
         axes['A'].xaxis.set_ticks_position('both')
 
         plt.plot(vs / _kms, vel_dist(vs, v_0=220, v_esc=544), label=mathrm('Old'), color='b', marker='')
-        labeled_vline(544+v_earth()/_kms, '$v_\mathrm{esc}+v_{e}$', 0.0005, color='b', ls='--', textoffset=0)
+        labeled_vline(544 + v_earth() / _kms, '$v_\mathrm{esc}+v_{e}$', 0.0005, color='b', ls='--', textoffset=0)
         plt.plot(vs / _kms, new, label=mathrm('New'), color='g', marker='')
 
         plt.fill_between(
@@ -203,9 +203,10 @@ class RecoilRatesPlot:
             color='g',
             alpha=0.5,
         )
-        labeled_vline(528+v_earth()/_kms, '$v_\mathrm{esc}+v_{e}$', 0.0005, color='g', ls='--', text_kwargs=dict(ha='left'),
+        labeled_vline(528 + v_earth() / _kms, '$v_\mathrm{esc}+v_{e}$', 0.0005, color='g', ls='--',
+                      text_kwargs=dict(ha='left'),
                       textoffset=-30)
-        plt.axvspan(528 - 25+v_earth()/_kms, 528 + 24+v_earth()/_kms, alpha=0.2, color='g')
+        plt.axvspan(528 - 25 + v_earth() / _kms, 528 + 24 + v_earth() / _kms, alpha=0.2, color='g')
         plt.fill_between(
             vs / _kms,
             vel_dist(vs, v_0=238, v_esc=528 - 25),
@@ -224,10 +225,10 @@ class RecoilRatesPlot:
                 xs = wimprates.vmin_elastic(es * 1000 * nu.eV, mw * nu.GeV / nu.c0 ** 2, label) / _kms
                 plt.plot(xs, es, c=getattr(plt.cm, self.color_map)(norm(mw)), marker='', )
                 if mw == annotate_mw_enr[0]:
-                    e_annotate = annotate_mw_enr[1] # kevrn
+                    e_annotate = annotate_mw_enr[1]  # kevrn
                     start_arrow = itp.interp1d(es, xs)(e_annotate)
-
-                    end_arrow = 528+v_earth()/_kms
+                    print(label, start_arrow)
+                    end_arrow = 528 + v_earth() / _kms
                     plt.axvline(end_arrow, ls='--', c='green')
                     plt.arrow(start_arrow,
                               e_annotate,
@@ -248,13 +249,13 @@ class RecoilRatesPlot:
                                   cmap=self.color_map,
                                   boundaries=self._estimate_bounds(self.mws),
                                   ticks=self.mws,
-                                  label='$\mathrm{M}_\chi$')
+                                  label='$M_\chi$')
         for k in target_keys[:-1]:
             axes[k].set_xticks([])
         for k in target_keys:
             # axes[k].set_ylabel(mathrm('E_{nr} [keV]'))
             axes[k].set_ylim(es[0], es[-1])
-        axes[target_keys[-1]].set_xlim(0, vs[-1]/_kms)
+        axes[target_keys[-1]].set_xlim(0, vs[-1] / _kms)
         axes['A'].set_xlim(0, vs[-1] / _kms)
         # Get one ylabel on the position next to the # targets panels. This depends
         # on the fig-size where the panel ratios are defined in the fig.subplot_mosaic
