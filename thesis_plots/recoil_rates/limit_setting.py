@@ -127,8 +127,9 @@ class StandardHaloModelReadable(wimprates.StandardHaloModel):
 
     @property
     def settings_name(self):
-        settings_name = ""
-        for name, value in self.settings.items():
-            settings_name += f'{name}_{value}_'
+        settings_name = "".join(
+            f'{name}_{value}_' for name, value in self.settings.items()
+        )
+
         # strip last _
         return settings_name[:-1]
