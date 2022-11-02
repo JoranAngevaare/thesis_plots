@@ -111,19 +111,21 @@ class LimitSetter:
         total_rate *= self.detector.exposure * self.detector.efficiency
         return total_rate
 
+
 class StandardHaloModelReadable(wimprates.StandardHaloModel):
     """
     Wrapper around wimprates.StandardHaloModel with a simple human-readable
     property for extracting the settings.
     """
+
     @property
     def settings(self):
         """
         Human-readable format of the settings used. NB! hardcoded float precision.
         """
-        return dict(v_0=f'{self.v_0/(nu.km/nu.s):.1f}',
-                    v_esc=f'{self.v_esc/(nu.km/nu.s):.1f}',
-                    rho_dm=f'{self.rho_dm/(nu.GeV/nu.c0**2 / nu.cm**3):.2f}')
+        return dict(v_0=f'{self.v_0 / (nu.km / nu.s):.1f}',
+                    v_esc=f'{self.v_esc / (nu.km / nu.s):.1f}',
+                    rho_dm=f'{self.rho_dm / (nu.GeV / nu.c0 ** 2 / nu.cm ** 3):.2f}')
 
     @property
     def settings_name(self):

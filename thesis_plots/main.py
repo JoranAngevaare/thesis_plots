@@ -17,7 +17,6 @@ from base64 import b32encode
 from hashlib import sha1
 from collections.abc import Mapping
 
-
 root_folder = os.path.join(os.path.split(os.path.realpath(__file__))[0], '..')
 
 
@@ -187,6 +186,7 @@ def hashablize(obj):
     else:
         return obj
 
+
 def deterministic_hash(thing, length=6):
     """Return a base32 lowercase string of length determined from hashing
     a container hierarchy
@@ -194,6 +194,5 @@ def deterministic_hash(thing, length=6):
     """
     hashable = hashablize(thing)
     jsonned = json.dumps(hashable, cls=json.JSONEncoder)
-    # disable bandit
-    digest = sha1(jsonned.encode('ascii')).digest()
+    digest = sha1(jsonned.encode('ascii')).digest()  # nosec
     return b32encode(digest)[:length].decode('ascii').lower()
