@@ -102,7 +102,7 @@ class LimitSetter:
         n_alive = n_threads
         t_wait = 0
         while n_alive:
-            n_alive = sum([t.is_alive() for t in threads])
+            n_alive = sum(t.is_alive() for t in threads)
             print(f'{n_alive} threads running, sleep. ({t_wait:.1f} s)', flush=True, end='\r')
             t_wait += _t_sleep
             time.sleep(_t_sleep)
