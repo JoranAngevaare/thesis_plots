@@ -66,7 +66,7 @@ class PlotRotationCurveRichards:
             plt.plot(*halo_data)
             plt.plot(x := halo_data[0], self._function(x, *halo_fit))
 
-        return partial(self._function, **{k: v for k, v in zip('abc', halo_fit)})
+        return partial(self._function, **dict(zip('abc', halo_fit)))
 
     def plot(self):
         mathrm = thesis_plots.mathrm
@@ -104,4 +104,4 @@ class PlotRotationCurveRichards:
         plt.xlabel(mathrm('Radius [kpc]'))
         plt.ylabel(mathrm('Velocity [km s^{-1}]'))
         plt.gca().set_yticks(range(0, 301, 25), minor=True)
-        plt.gca().set_xticks(range(0, 12, 1), minor=True)
+        plt.gca().set_xticks(range(12), minor=True)
