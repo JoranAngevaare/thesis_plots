@@ -11,6 +11,7 @@ import numpy as np
 from thesis_plots import string_to_mathrm as mathrm
 import thesis_plots
 
+
 def combined_milkiway_plot(r_max=26, h_frac=0.33):
     from mw_plot import MWPlot
     from astropy import units as u

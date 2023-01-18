@@ -4,6 +4,7 @@ import os
 from thesis_plots import mathrm
 import thesis_plots
 
+
 class PlotLambdaCDM:
     def __init__(self, make_rebin=True):
         self.make_rebin = make_rebin
@@ -17,7 +18,8 @@ class PlotLambdaCDM:
         else:
             df = self.get_df('COM_PowerSpect_CMB-TT-full_R3.01.txt')
         data = df.values.T
-        data_fit = self.get_df('COM_PowerSpect_CMB-base-plikHM-TTTEEE-lowl-lowE-lensing-minimum-theory_R3.01.txt').values.T
+        data_fit = self.get_df(
+            'COM_PowerSpect_CMB-base-plikHM-TTTEEE-lowl-lowE-lensing-minimum-theory_R3.01.txt').values.T
 
         plt.figure(figsize=(9, 5))
         kw = dict(ls='', capsize=3, marker='.', markersize=7.5)
@@ -37,18 +39,17 @@ class PlotLambdaCDM:
         plt.ylim(0, 6000)
         plt.gca().set_yticks(range(0, 6000, 500), minor=True)
 
-
     @staticmethod
     def get_df(name):
         base = os.path.join(thesis_plots.root_folder, 'data', 'planck')
-        if not os.path.exists(file:=os.path.join(base, name)):
+        if not os.path.exists(file := os.path.join(base, name)):
             raise FileNotFoundError(f'{file} not in {base}, chose from {os.listdir(base)}')
 
         data = []
         with open(file, 'r') as file:
-            for l in file:
-                if l.startswith('#'):
-                    headers = l.split()[1:]
+            for line in file:
+                if line.startswith('#'):
+                    headers = line.split()[1:]
                     continue
-                data.append([float(f) for f in l.split()])
+                data.append([float(f) for f in line.split()])
         return pd.DataFrame(data, columns=headers)
