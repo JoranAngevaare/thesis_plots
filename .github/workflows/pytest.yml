@@ -34,6 +34,7 @@ jobs:
           sudo apt-get update
           # sudo apt install texlive-full
           sudo apt install texlive texlive-latex-extra texlive-fonts-recommended dvipng cm-super
+          pip install setuptools
           pip install -r extra_requirements/requirements-tests.txt
           python setup.py develop
       - name: Test package
